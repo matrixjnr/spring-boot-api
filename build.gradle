@@ -1,0 +1,55 @@
+plugins {
+  id "org.springframework.boot" version "1.5.1.RELEASE"
+  id "org.flywaydb.flyway" version "4.1.1"
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = "3.3"
+}
+
+ext {
+}
+
+flyway {
+  url = "jdbc:mysql://localhost:3306/spring_rest?useSSL=true&characterEncoding=UTF-8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+  driver = "com.mysql.cj.jdbc.Driver"
+  user = "root"
+  password = ""
+
+}
+
+apply plugin: "java"
+apply plugin: "idea"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile("org.projectlombok:lombok:1.16.14")
+  compile("com.google.guava:guava:21.0")
+  compile("mysql:mysql-connector-java:6.0.5")
+  compile("org.springframework.boot:spring-boot-starter-web") {
+    exclude module: "spring-boot-starter-tomcat"
+  }
+  compile("org.springframework.boot:spring-boot-starter-jetty")
+  compile("org.springframework.boot:spring-boot-starter-jdbc")
+  compile("org.springframework.boot:spring-boot-starter-security")
+  compile("org.springframework.boot:spring-boot-devtools")
+  compile("org.springframework.session:spring-session")
+  testCompile("junit:junit:4.12")
+  testCompile("org.assertj:assertj-core:3.6.2")
+  testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+bootRun {
+  addResources = true
+}
+
+bootRepackage {
+  mainClass = "com.rkaneko.rest.Application"
+  executable = true
+}
